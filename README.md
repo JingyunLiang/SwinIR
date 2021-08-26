@@ -60,7 +60,8 @@ The training code will be put in [KAIR](https://github.com/cszn/KAIR).
 ## Testing (without preparing datasets)
 For your convience, we provide some example datasets (~20Mb) in `/testsets`. 
 If you just want codes, downloading `models/network_swinir.py`, `utils/util_calculate_psnr_ssim.py` and `main_test_swinir.py` is enough.
-Download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0) and put them in `model_zoo/swinir`, then run following commands:
+Download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0) and put them in `model_zoo/swinir`, then run the following commands. 
+**All visual results of SwinIR can be downloaded [here](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)**. 
 
 
 ```bash
@@ -111,8 +112,6 @@ python main_test_swinir.py --task jpeg_car --jpeg 30 --model_path model_zoo/swin
 python main_test_swinir.py --task jpeg_car --jpeg 40 --model_path model_zoo/swinir/006_CAR_DFWB_s126w7_SwinIR-M_jpeg40.pth --folder_gt testsets/classic5
 
 ```
-
-***All visual results of SwinIR can be downloaded [here](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)**. 
 
 *Large size real-world image SR model (`003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth`) will be released later.
 
