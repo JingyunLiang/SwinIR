@@ -9,6 +9,15 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 </br>
 
 :rocket:  :rocket:  :rocket: **News**:
+- Sep. 03, 2021: Add more detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
+
+| Method             | Training Set    |  Training time  <br /> (8 GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1 GeForceRTX2080Ti <br />, on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
+| :---      | :---:        |        :-----:         |     :---:      |     :---:      |     :---:      |   :---:      |  :---:      |
+| RCAN | DIV2K | 1.6 days | 31.22/0.9173 | 0.180s | 15.6M | 850.6G | 593.1M | 
+| SwinIR | DIV2K | 1.8 days |31.67/0.9226 | 0.539s | 11.9M | 788.6G | 986.8M | 
+
+\* We re-test the runtime when the GPU is idel. We refer to the evluation code [here](https://github.com/cszn/KAIR/blob/master/main_challenge_sr.py).
+
  - *Aug. 26, 2021: See our recent work on real-world image SR: [a pratical degrdation model BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)*
  - *Aug. 26, 2021: See our recent work on generative modelling of image SR and image rescaling: [normalizing-flow-based HCFlow, ICCV2021](https://github.com/JingyunLiang/HCFlow)*
  - *Aug. 26, 2021: See our recent work on blind SR kernel estimation: [spatially variant kernel estimation (MANet, ICCV2021)](https://github.com/JingyunLiang/MANet) and [unsupervised kernel estimation (FKP, CVPR2021)](https://github.com/JingyunLiang/FKP)*
