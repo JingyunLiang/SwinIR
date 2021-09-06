@@ -1,5 +1,8 @@
 # SwinIR: Image Restoration Using Swin Transformer
 
+[![GitHub Stars](https://img.shields.io/github/stars/JingyunLiang/SwinIR?style=social)](https://github.com/JingyunLiang/SwinIR)
+[![download](https://img.shields.io/github/downloads/JingyunLiang/SwinIR/total.svg)](https://github.com/JingyunLiang/SwinIR/releases)
+
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
 ([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR ahcieves **state-of-the-art performance** in
 - bicubic/lighweight/real-world image SR
@@ -9,7 +12,16 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 </br>
 
 :rocket:  :rocket:  :rocket: **News**:
-- Sep. 03, 2021: Add more detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
+- **Sep. 07, 2021**: We provide an [interactive online Colab demo for real-world image SR](https://colab.research.google.com/gist/JingyunLiang/10bc0a26f7efd899c95fd7137a936d10/real-esrgan-inference-demo.ipynb):fire::fire: for comparison with [the first practical degradation model BSRGAN (ICCV2021) ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model [RealESRGAN](https://github.com/xinntao/Real-ESRGAN). Try to super-resolve your own images on Colab!
+
+Real-World Image (x4) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;[BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SwinIR (ours)
+><p align="center">
+  <img width="200" src="figs/ETH_LR.png"><img width="200" src="figs/ETH_BSRGAN.png"><img width="200" src="figs/ETH_realESRGAN.jpg"><img width="200" src="figs/ETH_SwinIR.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="200" src="figs/OST_009_crop_LR.png"><img width="200" src="figs/OST_009_crop_BSRGAN.png"><img width="200" src="figs/OST_009_crop_realESRGAN.png"><img width="200" src="figs/OST_009_crop_SwinIR.png">
+  
+ \* Please zoom in for comparison. [Image 1](https://ethz.ch/en/campus/access/zentrum.html) and [Image 2](https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/RealSRSet+5images.zip) are randomly chosen from the web and from the `RealSRSet+5images` dataset, respectively.
+
+- **Sep. 03, 2021**: Add more detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
 
 | Method             | Training Set    |  Training time  <br /> (8 GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1 GeForceRTX2080Ti <br />, on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
 | :---      | :---:        |        :-----:         |     :---:      |     :---:      |     :---:      |   :---:      |  :---:      |
@@ -18,9 +30,9 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 \* We re-test the runtime when the GPU is idle. We refer to the evluation code [here](https://github.com/cszn/KAIR/blob/master/main_challenge_sr.py).
 
- - *Aug. 26, 2021: See our recent work on real-world image SR: [a pratical degrdation model BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)*
- - *Aug. 26, 2021: See our recent work on generative modelling of image SR and image rescaling: [normalizing-flow-based HCFlow, ICCV2021](https://github.com/JingyunLiang/HCFlow)*
- - *Aug. 26, 2021: See our recent work on blind SR kernel estimation: [spatially variant kernel estimation (MANet, ICCV2021)](https://github.com/JingyunLiang/MANet) and [unsupervised kernel estimation (FKP, CVPR2021)](https://github.com/JingyunLiang/FKP)*
+ - ***Aug. 26, 2021**: See our recent work on real-world image SR: [a pratical degrdation model BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)*
+ - ***Aug. 26, 2021**: See our recent work on generative modelling of image SR and image rescaling: [normalizing-flow-based HCFlow, ICCV2021](https://github.com/JingyunLiang/HCFlow)*
+ - ***Aug. 26, 2021**: See our recent work on blind SR kernel estimation: [spatially variant kernel estimation (MANet, ICCV2021)](https://github.com/JingyunLiang/MANet) and [unsupervised kernel estimation (FKP, CVPR2021)](https://github.com/JingyunLiang/FKP)*
 
 ---
 
@@ -48,7 +60,7 @@ Used training and testing sets can be downloaded as follows:
 | Task                 | Training Set | Testing Set|       
 | :---                 | :---:        |     :---:      |
 | classical/lightweight image SR          | [DIV2K](https://cv.snu.ac.kr/research/EDSR/DIV2K.tar) (800 training images) or DIV2K +[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar) (2650 images) | Set5 + Set14 + BSD100 + Urban100 + Manga109 [download all](https://drive.google.com/drive/folders/1B3DJGQKB6eNdwuQIhdskA64qUuVKLZ9u) |
-| real-world image SR          | SwinIR-M (middle size): [DIV2K](https://cv.snu.ac.kr/research/EDSR/DIV2K.tar) (800 training images) +[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar) (2650 images) + [OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip) (10324 images, sky,water,grass,mountain,building,plant,animal) <br /> SwinIR-L (large size): DIV2K + Flickr2K + OST + [WED](ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar)(4744 images) + [FFHQ](https://drive.google.com/drive/folders/1tZUcXDBeOibC6jcMCtgRRz67pzrAHeHL) (first 2000 images, face) + Manga109 (manga) + [SCUT-CTW1500](https://universityofadelaide.box.com/shared/static/py5uwlfyyytbb2pxzq9czvu6fuqbjdh8.zip) (first 100 training images, texts) <br /><br />  ***We use the degradation model proposed in [BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)** | [RealSRSet](https://github.com/cszn/BSRGAN/tree/main/testsets/RealSRSet) | 
+| real-world image SR          | SwinIR-M (middle size): [DIV2K](https://cv.snu.ac.kr/research/EDSR/DIV2K.tar) (800 training images) +[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar) (2650 images) + [OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip) (10324 images, sky,water,grass,mountain,building,plant,animal) <br /> SwinIR-L (large size): DIV2K + Flickr2K + OST + [WED](ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar)(4744 images) + [FFHQ](https://drive.google.com/drive/folders/1tZUcXDBeOibC6jcMCtgRRz67pzrAHeHL) (first 2000 images, face) + Manga109 (manga) + [SCUT-CTW1500](https://universityofadelaide.box.com/shared/static/py5uwlfyyytbb2pxzq9czvu6fuqbjdh8.zip) (first 100 training images, texts) <br /><br />  ***We use the degradation model proposed in [BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)** | [RealSRSet+5images](https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/RealSRSet+5images.zip) | 
 | color/grayscale image denoising      | [DIV2K](https://cv.snu.ac.kr/research/EDSR/DIV2K.tar) (800 training images) + [Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar) (2650 images) + [BSD500](www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_bsds500.tgz) (400 training&testing images) + [WED](ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar)(4744 images) |  grayscale: Set12 + BSD68 + Urban100 <br />  color: CBSD68 + Kodak24 + McMaster + Urban100 [download all](https://github.com/cszn/FFDNet/tree/master/testsets) | 
 | JPEG compression artifact reduction  | [DIV2K](https://cv.snu.ac.kr/research/EDSR/DIV2K.tar) (800 training images) + [Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar) (2650 images) + [BSD500](www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_bsds500.tgz) (400 training&testing images) + [WED](ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar)(4744 images) |  grayscale: Classic5 +LIVE1 [download all](https://github.com/cszn/DnCNN/tree/master/testsets) |
 
@@ -64,12 +76,12 @@ Note: above datasets may come from the official release or some awesome collecti
 
 -->
 
-The training code will be put in [KAIR](https://github.com/cszn/KAIR).
+The training code is at [KAIR](https://github.com/cszn/KAIR/blob/main/docs/README_SwinIR.md).
 
 ## Testing (without preparing datasets)
 For your convience, we provide some example datasets (~20Mb) in `/testsets`. 
 If you just want codes, downloading `models/network_swinir.py`, `utils/util_calculate_psnr_ssim.py` and `main_test_swinir.py` is enough.
-Download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0) and put them in `model_zoo/swinir`, then run the following commands. 
+Following commands will download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0) **automatically** and put them in `model_zoo/swinir`. 
 **All visual results of SwinIR can be downloaded [here](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)**. 
 
 
