@@ -197,12 +197,13 @@ We achieved state-of-the-art performance on classical/lightweight/real-world ima
 
 
 ## Citation
-    @article{liang2021swinir,
+    @inproceedings{liang2021swinir,
         title={SwinIR: Image Restoration Using Swin Transformer},
         author={Liang, Jingyun and Cao, Jiezhang and Sun, Guolei and Zhang, Kai and Van Gool, Luc and Timofte, Radu},
-        journal={arXiv preprint arXiv:2108.10257}, 
+        booktitle={IEEE International Conference on Computer Vision Workshops},
         year={2021}
     }
+
 
 ## License and Acknowledgement
 This project is released under the Apache 2.0 license. The codes are heavily based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer). We also refer to codes in [KAIR](https://github.com/cszn/KAIR) and [BasicSR](https://github.com/xinntao/BasicSR). Please also follow their licenses. Thanks for their awesome works.
