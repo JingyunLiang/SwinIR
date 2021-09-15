@@ -9,7 +9,6 @@ import glob
 import torch
 from collections import OrderedDict
 import numpy as np
-# from models.network_swinir import SwinIR as net
 from main_test_swinir import define_model, setup, get_image_pair
 
 
@@ -72,10 +71,10 @@ class Predictor(cog.Predictor):
                         'JPEG Compression Artifact Reduction'],
                help="image restoration task type")
     @cog.input("noise", type=int, default=15, options=[15, 25, 50],
-               help='noise level, activated for image denoising tasks gray_dn and color_dn. '
+               help='noise level, activated for Grayscale Image Denoising and Color Image Denoising. '
                     'Leave it as default or arbitrary if other tasks are selected')
     @cog.input("jpeg", type=int, default=40, options=[10, 20, 30, 40],
-               help='scale factor,activated for JPEG Compression Artifact Reduction task jpeg_car. '
+               help='scale factor, activated for JPEG Compression Artifact Reduction. '
                     'Leave it as default or arbitrary if other tasks are selected')
     def predict(self, image, task_type='Real-World Image Super-Resolution', jpeg=40, noise=15):
 
