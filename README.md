@@ -5,15 +5,16 @@
 [![download](https://img.shields.io/github/downloads/JingyunLiang/SwinIR/total.svg)](https://github.com/JingyunLiang/SwinIR/releases)
 [ <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb)
 
+[Run it on Replicate](https://replicate.ai/jingyunliang/swinir)
+
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
-([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR ahcieves **state-of-the-art performance** in
+([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR ahcieved **state-of-the-art performance** in
 - bicubic/lighweight/real-world image SR
 - grayscale/color image denoising
 - JPEG compression artifact reduction
 
 </br>
 
-[Run it on Replicate](https://replicate.ai/jingyunliang/swinir)
 
 :rocket:  :rocket:  :rocket: **News**:
 - **Sep. 07, 2021**: We release [the SwinIR training code at KAIR](https://github.com/cszn/KAIR/blob/master/docs/README_SwinIR.md):fire::fire:
@@ -28,7 +29,7 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 - **Sep. 03, 2021**: Add more detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
 
-| Method             | Training Set    |  Training time  <br /> (8 GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1 GeForceRTX2080Ti <br />, on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
+| Method             | Training Set    |  Training time  <br /> (8GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1GeForceRTX2080Ti,<br /> on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
 | :---      | :---:        |        :-----:         |     :---:      |     :---:      |     :---:      |   :---:      |  :---:      |
 | RCAN | DIV2K | 1.6 days | 31.22/0.9173 | 0.180s | 15.6M | 850.6G | 593.1M | 
 | SwinIR | DIV2K | 1.8 days |31.67/0.9226 | 0.539s | 11.9M | 788.6G | 986.8M | 
