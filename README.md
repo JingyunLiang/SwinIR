@@ -8,6 +8,8 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 </br>
 
+[Run it on Replicate](https://replicate.ai/jingyunliang/swinir)
+
 :rocket:  :rocket:  :rocket: **News**:
  - *Aug. 26, 2021: See our recent work on real-world image SR: [a pratical degrdation model BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)*
  - *Aug. 26, 2021: See our recent work on generative modelling of image SR and image rescaling: [normalizing-flow-based HCFlow, ICCV2021](https://github.com/JingyunLiang/HCFlow)*
