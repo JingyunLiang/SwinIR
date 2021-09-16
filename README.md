@@ -8,7 +8,7 @@
 [Run it on Replicate](https://replicate.ai/jingyunliang/swinir)
 
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
-([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR ahcieved **state-of-the-art performance** in
+([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR achieves **state-of-the-art performance** in
 - bicubic/lighweight/real-world image SR
 - grayscale/color image denoising
 - JPEG compression artifact reduction
