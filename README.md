@@ -8,7 +8,7 @@
 [Run it on Replicate](https://replicate.ai/jingyunliang/swinir)
 
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
-([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)). SwinIR achieves **state-of-the-art performance** in
+([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases)). SwinIR achieves **state-of-the-art performance** in
 - bicubic/lighweight/real-world image SR
 - grayscale/color image denoising
 - JPEG compression artifact reduction
@@ -91,8 +91,8 @@ The training code is at [KAIR](https://github.com/cszn/KAIR/blob/master/docs/REA
 ## Testing (without preparing datasets)
 For your convience, we provide some example datasets (~20Mb) in `/testsets`. 
 If you just want codes, downloading `models/network_swinir.py`, `utils/util_calculate_psnr_ssim.py` and `main_test_swinir.py` is enough.
-Following commands will download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0) **automatically** and put them in `model_zoo/swinir`. 
-**All visual results of SwinIR can be downloaded [here](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)**. 
+Following commands will download [pretrained models](https://github.com/JingyunLiang/SwinIR/releases) **automatically** and put them in `model_zoo/swinir`. 
+**All visual results of SwinIR can be downloaded [here](https://github.com/JingyunLiang/SwinIR/releases)**. 
 
 We also provide an [online Colab demo for real-world image SR  <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb) for comparison with [the first practical degradation model BSRGAN (ICCV2021)  ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model [RealESRGAN](https://github.com/xinntao/Real-ESRGAN). Try to test your own images on Colab!
 
