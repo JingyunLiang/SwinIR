@@ -5,6 +5,7 @@ import numpy as np
 from collections import OrderedDict
 import os
 import torch
+import requests
 
 from models.network_swinir import SwinIR as net
 from utils import util_calculate_psnr_ssim as util
@@ -29,7 +30,15 @@ def main():
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # set up model
-    print(f'loading model from {args.model_path}')
+    if os.path.exists(args.model_path):
+        print(f'loading model from {args.model_path}')
+    else:
+        os.makedirs(os.path.dirname(args.model_path), exist_ok=True)
+        url = 'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/{}'.format(os.path.basename(args.model_path))
+        r = requests.get(url, allow_redirects=True)
+        print(f'downloading model {args.model_path}')
+        open(args.model_path, 'wb').write(r.content)
+
     model = define_model(args)
     model.eval()
     model = model.to(device)
@@ -114,7 +123,7 @@ def define_model(args):
         model = net(upscale=args.scale, in_chans=3, img_size=args.training_patch_size, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='pixelshuffle', resi_connection='1conv')
-        model.load_state_dict(torch.load(args.model_path)['params'], strict=True)
+        param_key_g = 'params'
 
     # 002 lightweight image sr
     # use 'pixelshuffledirect' to save parameters
@@ -122,7 +131,7 @@ def define_model(args):
         model = net(upscale=args.scale, in_chans=3, img_size=64, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6], embed_dim=60, num_heads=[6, 6, 6, 6],
                     mlp_ratio=2, upsampler='pixelshuffledirect', resi_connection='1conv')
-        model.load_state_dict(torch.load(args.model_path)['params'], strict=True)
+        param_key_g = 'params'
 
     # 003 real-world image sr
     elif args.task == 'real_sr':
@@ -137,21 +146,21 @@ def define_model(args):
                         img_range=1., depths=[6, 6, 6, 6, 6, 6, 6, 6, 6], embed_dim=248,
                         num_heads=[8, 8, 8, 8, 8, 8, 8, 8, 8],
                         mlp_ratio=2, upsampler='nearest+conv', resi_connection='3conv')
-        model.load_state_dict(torch.load(args.model_path)['params_ema'], strict=True) #
+        param_key_g = 'params_ema'
 
     # 004 grayscale image denoising
     elif args.task == 'gray_dn':
         model = net(upscale=1, in_chans=1, img_size=128, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
-        model.load_state_dict(torch.load(args.model_path)['params'], strict=True)
+        param_key_g = 'params'
 
     # 005 color image denoising
     elif args.task == 'color_dn':
         model = net(upscale=1, in_chans=3, img_size=128, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
-        model.load_state_dict(torch.load(args.model_path)['params'], strict=True)
+        param_key_g = 'params'
 
     # 006 JPEG compression artifact reduction
     # use window_size=7 because JPEG encoding uses 8x8; use img_range=255 because it's sligtly better than 1
@@ -159,8 +168,11 @@ def define_model(args):
         model = net(upscale=1, in_chans=1, img_size=126, window_size=7,
                     img_range=255., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
-        model.load_state_dict(torch.load(args.model_path)['params'], strict=True)
-
+        param_key_g = 'params'
+    
+    pretrained_model = torch.load(args.model_path)
+    model.load_state_dict(pretrained_model[param_key_g] if param_key_g in pretrained_model.keys() else pretrained_model, strict=True)
+        
     return model
 
 
