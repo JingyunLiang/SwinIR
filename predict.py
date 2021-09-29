@@ -40,7 +40,7 @@ class Predictor(cog.Predictor):
 
         parser = argparse.ArgumentParser()
         parser.add_argument('--task', type=str, default='real_sr', help='classical_sr, lightweight_sr, real_sr, '
-                                                                         'gray_dn, color_dn, jpeg_car')
+                                                                        'gray_dn, color_dn, jpeg_car')
         parser.add_argument('--scale', type=int, default=1, help='scale factor: 1, 2, 3, 4, 8')  # 1 for dn and jpeg car
         parser.add_argument('--noise', type=int, default=15, help='noise level: 15, 25, 50')
         parser.add_argument('--jpeg', type=int, default=40, help='scale factor: 10, 20, 30, 40')
@@ -91,58 +91,59 @@ class Predictor(cog.Predictor):
         else:
             self.args.model_path = self.model_zoo[self.args.task][jpeg]
 
-        # set input folder
-        input_dir = 'input_cog_temp'
-        os.makedirs(input_dir, exist_ok=True)
-        input_path = os.path.join(input_dir, os.path.basename(image))
-        shutil.copy(str(image), input_path)
-        if self.args.task == 'real_sr':
-            self.args.folder_lq = input_dir
-        else:
-            self.args.folder_gt = input_dir
+        try:
+            # set input folder
+            input_dir = 'input_cog_temp'
+            os.makedirs(input_dir, exist_ok=True)
+            input_path = os.path.join(input_dir, os.path.basename(image))
+            shutil.copy(str(image), input_path)
+            if self.args.task == 'real_sr':
+                self.args.folder_lq = input_dir
+            else:
+                self.args.folder_gt = input_dir
 
-        model = define_model(self.args)
-        model.eval()
-        model = model.to(self.device)
+            model = define_model(self.args)
+            model.eval()
+            model = model.to(self.device)
 
-        # setup folder and path
-        folder, save_dir, border, window_size = setup(self.args)
-        os.makedirs(save_dir, exist_ok=True)
-        test_results = OrderedDict()
-        test_results['psnr'] = []
-        test_results['ssim'] = []
-        test_results['psnr_y'] = []
-        test_results['ssim_y'] = []
-        test_results['psnr_b'] = []
-        # psnr, ssim, psnr_y, ssim_y, psnr_b = 0, 0, 0, 0, 0
-        out_path = Path(tempfile.mkdtemp()) / "out.png"
+            # setup folder and path
+            folder, save_dir, border, window_size = setup(self.args)
+            os.makedirs(save_dir, exist_ok=True)
+            test_results = OrderedDict()
+            test_results['psnr'] = []
+            test_results['ssim'] = []
+            test_results['psnr_y'] = []
+            test_results['ssim_y'] = []
+            test_results['psnr_b'] = []
+            # psnr, ssim, psnr_y, ssim_y, psnr_b = 0, 0, 0, 0, 0
+            out_path = Path(tempfile.mkdtemp()) / "out.png"
 
-        for idx, path in enumerate(sorted(glob.glob(os.path.join(folder, '*')))):
-            # read image
-            imgname, img_lq, img_gt = get_image_pair(self.args, path)  # image to HWC-BGR, float32
-            img_lq = np.transpose(img_lq if img_lq.shape[2] == 1 else img_lq[:, :, [2, 1, 0]],
-                                  (2, 0, 1))  # HCW-BGR to CHW-RGB
-            img_lq = torch.from_numpy(img_lq).float().unsqueeze(0).to(self.device)  # CHW-RGB to NCHW-RGB
+            for idx, path in enumerate(sorted(glob.glob(os.path.join(folder, '*')))):
+                # read image
+                imgname, img_lq, img_gt = get_image_pair(self.args, path)  # image to HWC-BGR, float32
+                img_lq = np.transpose(img_lq if img_lq.shape[2] == 1 else img_lq[:, :, [2, 1, 0]],
+                                      (2, 0, 1))  # HCW-BGR to CHW-RGB
+                img_lq = torch.from_numpy(img_lq).float().unsqueeze(0).to(self.device)  # CHW-RGB to NCHW-RGB
 
-            # inference
-            with torch.no_grad():
-                # pad input image to be a multiple of window_size
-                _, _, h_old, w_old = img_lq.size()
-                h_pad = (h_old // window_size + 1) * window_size - h_old
-                w_pad = (w_old // window_size + 1) * window_size - w_old
-                img_lq = torch.cat([img_lq, torch.flip(img_lq, [2])], 2)[:, :, :h_old + h_pad, :]
-                img_lq = torch.cat([img_lq, torch.flip(img_lq, [3])], 3)[:, :, :, :w_old + w_pad]
-                output = model(img_lq)
-                output = output[..., :h_old * self.args.scale, :w_old * self.args.scale]
+                # inference
+                with torch.no_grad():
+                    # pad input image to be a multiple of window_size
+                    _, _, h_old, w_old = img_lq.size()
+                    h_pad = (h_old // window_size + 1) * window_size - h_old
+                    w_pad = (w_old // window_size + 1) * window_size - w_old
+                    img_lq = torch.cat([img_lq, torch.flip(img_lq, [2])], 2)[:, :, :h_old + h_pad, :]
+                    img_lq = torch.cat([img_lq, torch.flip(img_lq, [3])], 3)[:, :, :, :w_old + w_pad]
+                    output = model(img_lq)
+                    output = output[..., :h_old * self.args.scale, :w_old * self.args.scale]
 
-            # save image
-            output = output.data.squeeze().float().cpu().clamp_(0, 1).numpy()
-            if output.ndim == 3:
-                output = np.transpose(output[[2, 1, 0], :, :], (1, 2, 0))  # CHW-RGB to HCW-BGR
-            output = (output * 255.0).round().astype(np.uint8)  # float32 to uint8
-            cv2.imwrite(str(out_path), output)
-
-        clean_folder(input_dir)
+                # save image
+                output = output.data.squeeze().float().cpu().clamp_(0, 1).numpy()
+                if output.ndim == 3:
+                    output = np.transpose(output[[2, 1, 0], :, :], (1, 2, 0))  # CHW-RGB to HCW-BGR
+                output = (output * 255.0).round().astype(np.uint8)  # float32 to uint8
+                cv2.imwrite(str(out_path), output)
+        finally:
+            clean_folder(input_dir)
         return out_path
 
 
