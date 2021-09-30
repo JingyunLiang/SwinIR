@@ -187,6 +187,8 @@ def setup(args):
     # 003 real-world image sr
     elif args.task in ['real_sr']:
         save_dir = f'results/swinir_{args.task}_x{args.scale}'
+        if args.large_model:
+            save_dir += '_large'
         folder = args.folder_lq
         border = 0
         window_size = 8
