@@ -143,7 +143,7 @@ def define_model(args):
         else:
             # larger model size; use '3conv' to save parameters and memory; use ema for GAN training
             model = net(upscale=4, in_chans=3, img_size=64, window_size=8,
-                        img_range=1., depths=[6, 6, 6, 6, 6, 6, 6, 6, 6], embed_dim=248,
+                        img_range=1., depths=[6, 6, 6, 6, 6, 6, 6, 6, 6], embed_dim=240,
                         num_heads=[8, 8, 8, 8, 8, 8, 8, 8, 8],
                         mlp_ratio=2, upsampler='nearest+conv', resi_connection='3conv')
         param_key_g = 'params_ema'
