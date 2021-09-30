@@ -16,14 +16,15 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 
 :rocket:  :rocket:  :rocket: **News**:
+- **Sep. 30, 2021**: We release the [SwinIR-Large](https://github.com/JingyunLiang/SwinIR/releases) model for real-world image SR.
 - **Sep. 23, 2021**: Integrated to [Huggingface Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See [Gradio Web Demo](https://huggingface.co/spaces/akhaliq/SwinIR).
 - **Sep. 07, 2021**: We release [the SwinIR training code at KAIR](https://github.com/cszn/KAIR/blob/master/docs/README_SwinIR.md):fire::fire:
 - **Sep. 07, 2021**: We provide an [interactive online Colab demo for real-world image SR <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb):fire::fire: for comparison with [the first practical degradation model BSRGAN (ICCV2021) ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model [RealESRGAN](https://github.com/xinntao/Real-ESRGAN). Try to super-resolve your own images on Colab!
 
-|Real-World Image (x4)|[BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)|[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)|SwinIR (ours)|
-|      :---      |     :---:        |        :-----:         |        :-----:         | 
-| <img width="200" src="figs/ETH_LR.png">|<img width="200" src="figs/ETH_BSRGAN.png">|<img width="200" src="figs/ETH_realESRGAN.jpg">|<img width="200" src="figs/ETH_SwinIR.png">|
-|<img width="200" src="figs/OST_009_crop_LR.png">|<img width="200" src="figs/OST_009_crop_BSRGAN.png">|<img width="200" src="figs/OST_009_crop_realESRGAN.png">|<img width="200" src="figs/OST_009_crop_SwinIR.png">|
+|Real-World Image (x4)|[BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)|[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)|SwinIR (ours)|SwinIR-Large (ours)|
+|       :---       |     :---:        |        :-----:         |        :-----:         |        :-----:         | 
+| <img width="200" src="figs/ETH_LR.png">|<img width="200" src="figs/ETH_BSRGAN.png">|<img width="200" src="figs/ETH_realESRGAN.jpg">|<img width="200" src="figs/ETH_SwinIR.png">|<img width="200" src="figs/ETH_realESRGAN.jpg">|<img width="200" src="figs/ETH_SwinIR-L.png">|
+|<img width="200" src="figs/OST_009_crop_LR.png">|<img width="200" src="figs/OST_009_crop_BSRGAN.png">|<img width="200" src="figs/OST_009_crop_realESRGAN.png">|<img width="200" src="figs/OST_009_crop_SwinIR.png">|<img width="200" src="figs/OST_009_crop_SwinIR-L.png">|
   
  \* Please zoom in for comparison. [Image 1](https://ethz.ch/en/campus/access/zentrum.html) and [Image 2](https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/RealSRSet+5images.zip) are randomly chosen from the web and from the `RealSRSet+5images` dataset, respectively.
 
@@ -124,7 +125,7 @@ python main_test_swinir.py --task lightweight_sr --scale 4 --model_path model_zo
 python main_test_swinir.py --task real_sr --scale 4 --model_path model_zoo/swinir/003_realSR_BSRGAN_DFO_s64w8_SwinIR-M_x4_GAN.pth --folder_lq testsets/RealSRSet+5images
 
 # (larger size + trained on more datasets)
-# python main_test_swinir.py --task real_sr --scale 4 --large_model --model_path model_zoo/swinir/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth --folder_lq testsets/RealSRSet+5images
+python main_test_swinir.py --task real_sr --scale 4 --large_model --model_path model_zoo/swinir/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth --folder_lq testsets/RealSRSet+5images
 
 
 # 004 Grayscale Image Deoising (middle size)
@@ -146,8 +147,6 @@ python main_test_swinir.py --task jpeg_car --jpeg 30 --model_path model_zoo/swin
 python main_test_swinir.py --task jpeg_car --jpeg 40 --model_path model_zoo/swinir/006_CAR_DFWB_s126w7_SwinIR-M_jpeg40.pth --folder_gt testsets/classic5
 
 ```
-
-*Large size real-world image SR model (`003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth`) will be released later.
 
 ---
 
