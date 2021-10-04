@@ -26,6 +26,8 @@ def main():
                         default='model_zoo/swinir/001_classicalSR_DIV2K_s48w8_SwinIR-M_x2.pth')
     parser.add_argument('--folder_lq', type=str, default=None, help='input low-quality test image folder')
     parser.add_argument('--folder_gt', type=str, default=None, help='input ground-truth test image folder')
+    parser.add_argument('--tile', type=int, default=None, help='Tile size, None for no tile during testing (testing as a whole)')
+    parser.add_argument('--tile_overlap', type=int, default=32, help='Overlapping of different tiles')
     args = parser.parse_args()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -68,7 +70,7 @@ def main():
             w_pad = (w_old // window_size + 1) * window_size - w_old
             img_lq = torch.cat([img_lq, torch.flip(img_lq, [2])], 2)[:, :, :h_old + h_pad, :]
             img_lq = torch.cat([img_lq, torch.flip(img_lq, [3])], 3)[:, :, :, :w_old + w_pad]
-            output = model(img_lq)
+            output = test(img_lq, model, args, window_size)
             output = output[..., :h_old * args.scale, :w_old * args.scale]
 
         # save image
@@ -169,10 +171,10 @@ def define_model(args):
                     img_range=255., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
         param_key_g = 'params'
-    
+
     pretrained_model = torch.load(args.model_path)
     model.load_state_dict(pretrained_model[param_key_g] if param_key_g in pretrained_model.keys() else pretrained_model, strict=True)
-        
+
     return model
 
 
@@ -250,6 +252,36 @@ def get_image_pair(args, path):
 
     return imgname, img_lq, img_gt
 
+
+def test(img_lq, model, args, window_size):
+    if args.tile is None:
+        # test the image as a whole
+        output = model(img_lq)
+    else:
+        # test the image tile by tile
+        b, c, h, w = img_lq.size()
+        tile = min(args.tile, h, w)
+        assert tile % window_size == 0, "tile size should be a multiple of window_size"
+        tile_overlap = args.tile_overlap
+        sf = args.scale
+
+        stride = tile - tile_overlap
+        h_idx_list = list(range(0, h-tile, stride)) + [h-tile]
+        w_idx_list = list(range(0, w-tile, stride)) + [w-tile]
+        E = torch.zeros(b, c, h*sf, w*sf).type_as(img_lq)
+        W = torch.zeros_like(E)
+
+        for h_idx in h_idx_list:
+            for w_idx in w_idx_list:
+                in_patch = img_lq[..., h_idx:h_idx+tile, w_idx:w_idx+tile]
+                out_patch = model(in_patch)
+                out_patch_mask = torch.ones_like(out_patch)
+
+                E[..., h_idx*sf:(h_idx+tile)*sf, w_idx*sf:(w_idx+tile)*sf].add_(out_patch)
+                W[..., h_idx*sf:(h_idx+tile)*sf, w_idx*sf:(w_idx+tile)*sf].add_(out_patch_mask)
+        output = E.div_(W)
+
+    return output
 
 if __name__ == '__main__':
     main()
