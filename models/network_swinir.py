@@ -803,6 +803,7 @@ class SwinIR(nn.Module):
         return x
 
     def forward(self, x):
+        H, W = x.shape[2:]
         x = self.check_image_size(x)
         
         self.mean = self.mean.type_as(x)
@@ -835,7 +836,7 @@ class SwinIR(nn.Module):
 
         x = x / self.img_range + self.mean
 
-        return x
+        return x[:, :, H*self.upscale, W*self.upscale]
 
     def flops(self):
         flops = 0
