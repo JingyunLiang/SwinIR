@@ -244,7 +244,7 @@ def get_image_pair(args, path):
     elif args.task in ['jpeg_car']:
         img_gt = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         if img_gt.ndim != 2:
-            img_gt = util.rgb2ycbcr(cv2.cvtColor(img_gt, cv2.COLOR_BGR2RGB), y_only=True)
+            img_gt = util.bgr2ycbcr(img_gt, y_only=True)
         result, encimg = cv2.imencode('.jpg', img_gt, [int(cv2.IMWRITE_JPEG_QUALITY), args.jpeg])
         img_lq = cv2.imdecode(encimg, 0)
         img_gt = np.expand_dims(img_gt, axis=2).astype(np.float32) / 255.
