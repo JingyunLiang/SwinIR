@@ -21,7 +21,11 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 </br>
 
 :rocket:  :rocket:  :rocket: **News**:
-- **Jan. 31, 2022**: See our new work [VRT: A Video Restoration Transformer](https://github.com/JingyunLiang/VRT):fire::fire::fire: for video SR, video deblurring and video denoising.
+- **Jan. 31, 2022**: See our new work [VRT: A Video Restoration Transformer](https://github.com/JingyunLiang/VRT):fire::fire::fire: for video SR, video deblurring and video denoising.[![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2201.12288)
+[![GitHub Stars](https://img.shields.io/github/stars/JingyunLiang/VRT?style=social)](https://github.com/JingyunLiang/VRT)
+[![download](https://img.shields.io/github/downloads/JingyunLiang/VRT/total.svg)](https://github.com/JingyunLiang/VRT/releases)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=jingyunliang/VRT)
+[ <a href="https://colab.research.google.com/gist/JingyunLiang/deb335792768ad9eb73854a8efca4fe0#file-vrt-demo-on-video-restoration-ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/deb335792768ad9eb73854a8efca4fe0#file-vrt-demo-on-video-restoration-ipynb)
 - **Sep. 30, 2021**: We release the [SwinIR-Large](https://github.com/JingyunLiang/SwinIR/releases) model for real-world image SR.
 - **Sep. 23, 2021**: Integrated to [Huggingface Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See [Gradio Web Demo](https://huggingface.co/spaces/akhaliq/SwinIR).
 - **Sep. 07, 2021**: We release [the SwinIR training code at KAIR](https://github.com/cszn/KAIR/blob/master/docs/README_SwinIR.md)
