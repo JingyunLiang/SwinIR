@@ -20,7 +20,6 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 </br>
 
-
 :rocket:  :rocket:  :rocket: **News**:
 - **Jan. 31, 2022**: See our new work [VRT: A Video Restoration Transformer](https://github.com/JingyunLiang/VRT):fire::fire::fire: for video SR, video deblurring and video denoising.
 - **Sep. 30, 2021**: We release the [SwinIR-Large](https://github.com/JingyunLiang/SwinIR/releases) model for real-world image SR.
