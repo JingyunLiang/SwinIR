@@ -169,6 +169,17 @@ We achieved state-of-the-art performance on classical/lightweight/real-world ima
   <img width="900" src="figs/classic_image_sr.png">
   <img width="900" src="figs/classic_image_sr_visual.png">
 </p>
+  
+Results on DIV2K-validation (100 images)
+|  Training Set | scale factor | PSNR (RGB) | PSNR (Y) | SSIM (RGB)  | SSIM (Y) |
+| :--- | :---: | :---:        |     :---:      | :---: | :---:        |
+|  DIV2K (800 images) | 2 | 35.25 | 36.77 | 0.9423 | 0.9500 |
+|  DIV2K+Flickr2K (2650 images) | 2 | 35.34 | 36.86 | 0.9430 |0.9507 |
+|  DIV2K (800 images) | 3 | 31.50 | 32.97 | 0.8832 |0.8965 |
+|  DIV2K+Flickr2K (2650 images) | 3 | 31.63 | 33.10 | 0.8854 |0.8985 |
+|  DIV2K (800 images) | 4 | 29.48 | 30.94 | 0.8311|0.8492 |
+|  DIV2K+Flickr2K (2650 images) | 4 | 29.63 | 31.08 | 0.8347|0.8523 |
+
 </details>
 
 <details>
