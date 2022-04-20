@@ -11,6 +11,7 @@ Computer Vision Lab, ETH Zurich
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=jingyunliang/SwinIR)
 [ <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb)
 <a href="https://replicate.ai/jingyunliang/swinir"><img src="https://img.shields.io/static/v1?label=Replicate&message=Demo and Docker Image&color=blue"></a>
+[Gradio Web Demo](https://huggingface.co/spaces/akhaliq/SwinIR)
 
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
 ([arxiv](https://arxiv.org/pdf/2108.10257.pdf), [supp](https://github.com/JingyunLiang/SwinIR/releases), [pretrained models](https://github.com/JingyunLiang/SwinIR/releases), [visual results](https://github.com/JingyunLiang/SwinIR/releases)). SwinIR achieves **state-of-the-art performance** in
@@ -26,27 +27,13 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 [![download](https://img.shields.io/github/downloads/JingyunLiang/VRT/total.svg)](https://github.com/JingyunLiang/VRT/releases)
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=jingyunliang/VRT)
 [ <a href="https://colab.research.google.com/gist/JingyunLiang/deb335792768ad9eb73854a8efca4fe0#file-vrt-demo-on-video-restoration-ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/deb335792768ad9eb73854a8efca4fe0#file-vrt-demo-on-video-restoration-ipynb)
-- **Sep. 30, 2021**: We release the [SwinIR-Large](https://github.com/JingyunLiang/SwinIR/releases) model for real-world image SR.
-- **Sep. 23, 2021**: Integrated to [Huggingface Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See [Gradio Web Demo](https://huggingface.co/spaces/akhaliq/SwinIR).
-- **Sep. 07, 2021**: We release [the SwinIR training code at KAIR](https://github.com/cszn/KAIR/blob/master/docs/README_SwinIR.md)
-- **Sep. 07, 2021**: We provide an [interactive online Colab demo for real-world image SR <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb):fire: for comparison with [the first practical degradation model BSRGAN (ICCV2021) ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model [RealESRGAN](https://github.com/xinntao/Real-ESRGAN). Try to super-resolve your own images on Colab!
+- **Sep. 07, 2021**: We provide an interactive online Colab demo for real-world image SR <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>:fire: for comparison with [the first practical degradation model BSRGAN (ICCV2021) ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model RealESRGAN. Try to super-resolve your own images on Colab!
 
 |Real-World Image (x4)|[BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)|[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)|SwinIR (ours)|SwinIR-Large (ours)|
 |       :---       |     :---:        |        :-----:         |        :-----:         |        :-----:         | 
 | <img width="200" src="figs/ETH_LR.png">|<img width="200" src="figs/ETH_BSRGAN.png">|<img width="200" src="figs/ETH_realESRGAN.jpg">|<img width="200" src="figs/ETH_SwinIR.png">|<img width="200" src="figs/ETH_SwinIR-L.png">
 |<img width="200" src="figs/OST_009_crop_LR.png">|<img width="200" src="figs/OST_009_crop_BSRGAN.png">|<img width="200" src="figs/OST_009_crop_realESRGAN.png">|<img width="200" src="figs/OST_009_crop_SwinIR.png">|<img width="200" src="figs/OST_009_crop_SwinIR-L.png">|
   
- \* Please zoom in for comparison. [Image 1](https://ethz.ch/en/campus/access/zentrum.html) and [Image 2](https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/RealSRSet+5images.zip) are randomly chosen from the web and from the `RealSRSet+5images` dataset, respectively.
-
-- **Sep. 03, 2021**: Add more detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
-
-| Method             | Training Set    |  Training time  <br /> (8GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1GeForceRTX2080Ti,<br /> on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
-| :---      | :---:        |        :-----:         |     :---:      |     :---:      |     :---:      |   :---:      |  :---:      |
-| RCAN | DIV2K | 1.6 days | 31.22/0.9173 | 0.180s | 15.6M | 850.6G | 593.1M | 
-| SwinIR | DIV2K | 1.8 days |31.67/0.9226 | 0.539s | 11.9M | 788.6G | 986.8M | 
-
-\* We re-test the runtime when the GPU is idle. We refer to the evluation code [here](https://github.com/cszn/KAIR/blob/master/main_challenge_sr.py).
-
  - ***Aug. 26, 2021**: See our recent work on [real-world image SR: a pratical degrdation model BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)  [![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2103.14006)
 [![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN)*
  - ***Aug. 26, 2021**: See our recent work on [generative modelling of image SR and image rescaling: normalizing-flow-based HCFlow, ICCV2021](https://github.com/JingyunLiang/HCFlow) [![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2108.05301)
@@ -170,7 +157,18 @@ We achieved state-of-the-art performance on classical/lightweight/real-world ima
   <img width="900" src="figs/classic_image_sr_visual.png">
 </p>
   
-Results on DIV2K-validation (100 images)
+- More detailed comparison between SwinIR and a representative CNN-based model RCAN (classical image SR, X4)
+
+| Method             | Training Set    |  Training time  <br /> (8GeForceRTX2080Ti <br /> batch=32, iter=500k) |Y-PSNR/Y-SSIM <br /> on Manga109 | Run time  <br /> (1GeForceRTX2080Ti,<br /> on 256x256 LR image)* |  #Params   | #FLOPs |  Testing memory |
+| :---      | :---:        |        :-----:         |     :---:      |     :---:      |     :---:      |   :---:      |  :---:      |
+| RCAN | DIV2K | 1.6 days | 31.22/0.9173 | 0.180s | 15.6M | 850.6G | 593.1M | 
+| SwinIR | DIV2K | 1.8 days |31.67/0.9226 | 0.539s | 11.9M | 788.6G | 986.8M | 
+
+\* We re-test the runtime when the GPU is idle. We refer to the evluation code [here](https://github.com/cszn/KAIR/blob/master/main_challenge_sr.py).
+
+  
+- Results on DIV2K-validation (100 images)
+  
 |  Training Set | scale factor | PSNR (RGB) | PSNR (Y) | SSIM (RGB)  | SSIM (Y) |
 | :--- | :---: | :---:        |     :---:      | :---: | :---:        |
 |  DIV2K (800 images) | 2 | 35.25 | 36.77 | 0.9423 | 0.9500 |
@@ -220,11 +218,11 @@ Results on DIV2K-validation (100 images)
 
 
 ## Citation
-    @inproceedings{liang2021swinir,
-        title={SwinIR: Image Restoration Using Swin Transformer},
-        author={Liang, Jingyun and Cao, Jiezhang and Sun, Guolei and Zhang, Kai and Van Gool, Luc and Timofte, Radu},
-        booktitle={IEEE International Conference on Computer Vision Workshops},
-        year={2021}
+    @article{liang2021swinir,
+      title={SwinIR: Image Restoration Using Swin Transformer},
+      author={Liang, Jingyun and Cao, Jiezhang and Sun, Guolei and Zhang, Kai and Van Gool, Luc and Timofte, Radu},
+      journal={arXiv preprint arXiv:2108.10257},
+      year={2021}
     }
 
 
