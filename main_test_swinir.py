@@ -139,12 +139,12 @@ def define_model(args):
     elif args.task == 'real_sr':
         if not args.large_model:
             # use 'nearest+conv' to avoid block artifacts
-            model = net(upscale=4, in_chans=3, img_size=64, window_size=8,
+            model = net(upscale=args.scale, in_chans=3, img_size=64, window_size=8,
                         img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                         mlp_ratio=2, upsampler='nearest+conv', resi_connection='1conv')
         else:
             # larger model size; use '3conv' to save parameters and memory; use ema for GAN training
-            model = net(upscale=4, in_chans=3, img_size=64, window_size=8,
+            model = net(upscale=args.scale, in_chans=3, img_size=64, window_size=8,
                         img_range=1., depths=[6, 6, 6, 6, 6, 6, 6, 6, 6], embed_dim=240,
                         num_heads=[8, 8, 8, 8, 8, 8, 8, 8, 8],
                         mlp_ratio=2, upsampler='nearest+conv', resi_connection='3conv')
