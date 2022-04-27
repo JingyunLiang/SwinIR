@@ -53,11 +53,11 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 
 #### Contents
 
-1. [Training](#Training)
-1. [Testing](#Testing)
-1. [Results](#Results)
-1. [Citation](#Citation)
-1. [License and Acknowledgement](#License-and-Acknowledgement)
+1. [Training](#training)
+1. [Testing](#testing-without-preparing-datasets)
+1. [Results](#results)
+1. [Citation](#citation)
+1. [License and Acknowledgement](#license-and-acknowledgement)
 
 
 ### Training
