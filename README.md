@@ -28,7 +28,7 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 and [RVRT: Recurrent Video Restoration Transformer](https://github.com/JingyunLiang/RVRT) 
 [![GitHub Stars](https://img.shields.io/github/stars/JingyunLiang/RVRT?style=social)](https://github.com/JingyunLiang/RVRT)
 [![download](https://img.shields.io/github/downloads/JingyunLiang/RVRT/total.svg)](https://github.com/JingyunLiang/RVRT/releases)
-for video SR, video deblurring and video denoising :fire::fire::fire:.
+for video SR, video deblurring, video denoising, video frame interpolation and space-time video SR. :fire::fire::fire:.
 - **Sep. 07, 2021**: We provide an interactive online Colab demo for real-world image SR <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>:fire: for comparison with [the first practical degradation model BSRGAN (ICCV2021) ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model RealESRGAN. Try to super-resolve your own images on Colab!
 
 |Real-World Image (x4)|[BSRGAN, ICCV2021](https://github.com/cszn/BSRGAN)|[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)|SwinIR (ours)|SwinIR-Large (ours)|
