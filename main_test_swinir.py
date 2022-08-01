@@ -14,7 +14,7 @@ from utils import util_calculate_psnr_ssim as util
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', type=str, default='color_dn', help='classical_sr, lightweight_sr, real_sr, '
-                                                                     'gray_dn, color_dn, jpeg_car')
+                                                                     'gray_dn, color_dn, jpeg_car, color_jpeg_car')
     parser.add_argument('--scale', type=int, default=1, help='scale factor: 1, 2, 3, 4, 8') # 1 for dn and jpeg car
     parser.add_argument('--noise', type=int, default=15, help='noise level: 15, 25, 50')
     parser.add_argument('--jpeg', type=int, default=40, help='scale factor: 10, 20, 30, 40')
@@ -53,8 +53,9 @@ def main():
     test_results['ssim'] = []
     test_results['psnr_y'] = []
     test_results['ssim_y'] = []
-    test_results['psnr_b'] = []
-    psnr, ssim, psnr_y, ssim_y, psnr_b = 0, 0, 0, 0, 0
+    test_results['psnrb'] = []
+    test_results['psnrb_y'] = []
+    psnr, ssim, psnr_y, ssim_y, psnrb, psnrb_y = 0, 0, 0, 0, 0, 0
 
     for idx, path in enumerate(sorted(glob.glob(os.path.join(folder, '*')))):
         # read image
@@ -95,13 +96,15 @@ def main():
                 ssim_y = util.calculate_ssim(output, img_gt, crop_border=border, test_y_channel=True)
                 test_results['psnr_y'].append(psnr_y)
                 test_results['ssim_y'].append(ssim_y)
-            if args.task in ['jpeg_car']:
-                psnr_b = util.calculate_psnrb(output, img_gt, crop_border=border, test_y_channel=True)
-                test_results['psnr_b'].append(psnr_b)
-            print('Testing {:d} {:20s} - PSNR: {:.2f} dB; SSIM: {:.4f}; '
-                  'PSNR_Y: {:.2f} dB; SSIM_Y: {:.4f}; '
-                  'PSNR_B: {:.2f} dB.'.
-                  format(idx, imgname, psnr, ssim, psnr_y, ssim_y, psnr_b))
+            if args.task in ['jpeg_car', 'color_jpeg_car']:
+                psnrb = util.calculate_psnrb(output, img_gt, crop_border=border, test_y_channel=False)
+                test_results['psnrb'].append(psnrb)
+                if args.task in ['color_jpeg_car']:
+                    psnrb_y = util.calculate_psnrb(output, img_gt, crop_border=border, test_y_channel=True)
+                    test_results['psnrb_y'].append(psnrb_y)
+            print('Testing {:d} {:20s} - PSNR: {:.2f} dB; SSIM: {:.4f}; PSNRB: {:.2f} dB;'
+                  'PSNR_Y: {:.2f} dB; SSIM_Y: {:.4f}; PSNRB_Y: {:.2f} dB.'.
+                  format(idx, imgname, psnr, ssim, psnrb, psnr_y, ssim_y, psnrb_y))
         else:
             print('Testing {:d} {:20s}'.format(idx, imgname))
 
@@ -114,9 +117,12 @@ def main():
             ave_psnr_y = sum(test_results['psnr_y']) / len(test_results['psnr_y'])
             ave_ssim_y = sum(test_results['ssim_y']) / len(test_results['ssim_y'])
             print('-- Average PSNR_Y/SSIM_Y: {:.2f} dB; {:.4f}'.format(ave_psnr_y, ave_ssim_y))
-        if args.task in ['jpeg_car']:
-            ave_psnr_b = sum(test_results['psnr_b']) / len(test_results['psnr_b'])
-            print('-- Average PSNR_B: {:.2f} dB'.format(ave_psnr_b))
+        if args.task in ['jpeg_car', 'color_jpeg_car']:
+            ave_psnrb = sum(test_results['psnrb']) / len(test_results['psnrb'])
+            print('-- Average PSNRB: {:.2f} dB'.format(ave_psnrb))
+            if args.task in ['color_jpeg_car']:
+                ave_psnrb_y = sum(test_results['psnrb_y']) / len(test_results['psnrb_y'])
+                print('-- Average PSNRB_Y: {:.2f} dB'.format(ave_psnrb_y))
 
 
 def define_model(args):
@@ -164,10 +170,18 @@ def define_model(args):
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
         param_key_g = 'params'
 
-    # 006 JPEG compression artifact reduction
+    # 006 grayscale JPEG compression artifact reduction
     # use window_size=7 because JPEG encoding uses 8x8; use img_range=255 because it's sligtly better than 1
     elif args.task == 'jpeg_car':
         model = net(upscale=1, in_chans=1, img_size=126, window_size=7,
+                    img_range=255., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
+                    mlp_ratio=2, upsampler='', resi_connection='1conv')
+        param_key_g = 'params'
+
+    # 006 color JPEG compression artifact reduction
+    # use window_size=7 because JPEG encoding uses 8x8; use img_range=255 because it's sligtly better than 1
+    elif args.task == 'color_jpeg_car':
+        model = net(upscale=1, in_chans=3, img_size=126, window_size=7,
                     img_range=255., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
         param_key_g = 'params'
@@ -203,7 +217,7 @@ def setup(args):
         window_size = 8
 
     # 006 JPEG compression artifact reduction
-    elif args.task in ['jpeg_car']:
+    elif args.task in ['jpeg_car', 'color_jpeg_car']:
         save_dir = f'results/swinir_{args.task}_jpeg{args.jpeg}'
         folder = args.folder_gt
         border = 0
@@ -240,7 +254,7 @@ def get_image_pair(args, path):
         np.random.seed(seed=0)
         img_lq = img_gt + np.random.normal(0, args.noise / 255., img_gt.shape)
 
-    # 006 JPEG compression artifact reduction (load gt image and generate lq image on-the-fly)
+    # 006 grayscale JPEG compression artifact reduction (load gt image and generate lq image on-the-fly)
     elif args.task in ['jpeg_car']:
         img_gt = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         if img_gt.ndim != 2:
@@ -249,6 +263,14 @@ def get_image_pair(args, path):
         img_lq = cv2.imdecode(encimg, 0)
         img_gt = np.expand_dims(img_gt, axis=2).astype(np.float32) / 255.
         img_lq = np.expand_dims(img_lq, axis=2).astype(np.float32) / 255.
+
+    # 006 JPEG compression artifact reduction (load gt image and generate lq image on-the-fly)
+    elif args.task in ['color_jpeg_car']:
+        img_gt = cv2.imread(path)
+        result, encimg = cv2.imencode('.jpg', img_gt, [int(cv2.IMWRITE_JPEG_QUALITY), args.jpeg])
+        img_lq = cv2.imdecode(encimg, 1)
+        img_gt = img_gt.astype(np.float32)/ 255.
+        img_lq = img_lq.astype(np.float32)/ 255.
 
     return imgname, img_lq, img_gt
 
