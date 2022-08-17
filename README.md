@@ -11,6 +11,7 @@ Computer Vision Lab, ETH Zurich
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=jingyunliang/SwinIR)
 [ <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb)
 <a href="https://replicate.ai/jingyunliang/swinir"><img src="https://img.shields.io/static/v1?label=Replicate&message=Demo and Docker Image&color=blue"></a>
+[![PlayTorch Demo](https://github.com/facebookresearch/playtorch/blob/main/website/static/assets/playtorch_badge.svg)](https://playtorch.dev/snack/@playtorch/swinir/)
 [Gradio Web Demo](https://huggingface.co/spaces/akhaliq/SwinIR)
 
 This repository is the official PyTorch implementation of SwinIR: Image Restoration Using Shifted Window Transformer
@@ -22,6 +23,7 @@ This repository is the official PyTorch implementation of SwinIR: Image Restorat
 </br>
 
 :rocket:  :rocket:  :rocket: **News**:
+- **Aug. 16, 2022**: Add PlayTorch Demo on running the real-world image SR model on mobile devices [![PlayTorch Demo](https://github.com/facebookresearch/playtorch/blob/main/website/static/assets/playtorch_badge.svg)](https://playtorch.dev/snack/@playtorch/swinir/).
 - **Aug. 01, 2022**: Add pretrained models and results on JPEG compression artifact reduction for color images. 
 - **Jun. 10, 2022**: See our work on video restoration :fire::fire::fire: [VRT: A Video Restoration Transformer](https://github.com/JingyunLiang/VRT) 
 [![GitHub Stars](https://img.shields.io/github/stars/JingyunLiang/VRT?style=social)](https://github.com/JingyunLiang/VRT)
@@ -97,6 +99,7 @@ Following commands will download [pretrained models](https://github.com/JingyunL
 
 We also provide an [online Colab demo for real-world image SR  <a href="https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>](https://colab.research.google.com/gist/JingyunLiang/a5e3e54bc9ef8d7bf594f6fee8208533/swinir-demo-on-real-world-image-sr.ipynb) for comparison with [the first practical degradation model BSRGAN (ICCV2021)  ![GitHub Stars](https://img.shields.io/github/stars/cszn/BSRGAN?style=social)](https://github.com/cszn/BSRGAN) and a recent model [RealESRGAN](https://github.com/xinntao/Real-ESRGAN). Try to test your own images on Colab!
 
+We provide a PlayTorch demo [![PlayTorch Demo](https://github.com/facebookresearch/playtorch/blob/main/website/static/assets/playtorch_badge.svg)](https://playtorch.dev/snack/@playtorch/swinir/) for real-world image SR to showcase how to run the SwinIR model in mobile application built with React Native.
 
 ```bash
 # 001 Classical Image Super-Resolution (middle size)
