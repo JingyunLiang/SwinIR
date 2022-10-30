@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--folder_gt', type=str, default=None, help='input ground-truth test image folder')
     parser.add_argument('--tile', type=int, default=None, help='Tile size, None for no tile during testing (testing as a whole)')
     parser.add_argument('--tile_overlap', type=int, default=32, help='Overlapping of different tiles')
+    parser.add_argument("--save_dir", type=str, default='results/swinir_{args.task}_x{args.scale}')
     args = parser.parse_args()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -195,7 +196,6 @@ def define_model(args):
 def setup(args):
     # 001 classical image sr/ 002 lightweight image sr
     if args.task in ['classical_sr', 'lightweight_sr']:
-        save_dir = f'results/swinir_{args.task}_x{args.scale}'
         folder = args.folder_gt
         border = args.scale
         window_size = 8
@@ -222,7 +222,9 @@ def setup(args):
         folder = args.folder_gt
         border = 0
         window_size = 7
-
+    
+    if args.save_dir:
+        save_dir = args.save_dir
     return folder, save_dir, border, window_size
 
 
