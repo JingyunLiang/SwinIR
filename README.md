@@ -58,11 +58,11 @@ for video SR, video deblurring, video denoising, video frame interpolation and s
 
 #### Contents
 
-1. [Training](#Training)
-1. [Testing](#Testing)
-1. [Results](#Results)
-1. [Citation](#Citation)
-1. [License and Acknowledgement](#License-and-Acknowledgement)
+1. [Training](#training)
+2. [Testing](#testing-without-preparing-datasets)
+3. [Results](#results)
+4. [Citation](#citation)
+5. [License and Acknowledgement](#license-and-acknowledgement)
 
 
 ### Training
