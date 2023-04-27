@@ -67,8 +67,8 @@ def main():
         with torch.no_grad():
             # pad input image to be a multiple of window_size
             _, _, h_old, w_old = img_lq.size()
-            h_pad = (h_old // window_size + 1) * window_size - h_old
-            w_pad = (w_old // window_size + 1) * window_size - w_old
+            h_pad = (window_size - h_old % window_size) % window_size
+            w_pad = (window_size - w_old % window_size) % window_size
             img_lq = torch.cat([img_lq, torch.flip(img_lq, [2])], 2)[:, :, :h_old + h_pad, :]
             img_lq = torch.cat([img_lq, torch.flip(img_lq, [3])], 3)[:, :, :, :w_old + w_pad]
             output = test(img_lq, model, args, window_size)
