@@ -6,6 +6,7 @@ from collections import OrderedDict
 import os
 import torch
 import requests
+import pandas as pd
 
 from models.network_swinir import SwinIR as net
 from utils import util_calculate_psnr_ssim as util
@@ -56,6 +57,7 @@ def main():
     test_results['psnrb'] = []
     test_results['psnrb_y'] = []
     psnr, ssim, psnr_y, ssim_y, psnrb, psnrb_y = 0, 0, 0, 0, 0, 0
+    results = list()
 
     for idx, path in enumerate(sorted(glob.glob(os.path.join(folder, '*')))):
         # read image
@@ -105,9 +107,15 @@ def main():
             print('Testing {:d} {:20s} - PSNR: {:.2f} dB; SSIM: {:.4f}; PSNRB: {:.2f} dB;'
                   'PSNR_Y: {:.2f} dB; SSIM_Y: {:.4f}; PSNRB_Y: {:.2f} dB.'.
                   format(idx, imgname, psnr, ssim, psnrb, psnr_y, ssim_y, psnrb_y))
+            results.append([imgname, psnr, ssim, psnr_y, ssim_y])
         else:
             print('Testing {:d} {:20s}'.format(idx, imgname))
+    columns = ['Image Name', 'PSNR', 'SSIM', 'PSNR_Y', 'SSIM_Y']
+    df = pd.DataFrame(results, columns=columns)
 
+    csv_path = os.path.join(save_dir, 'results.csv')
+    df.to_csv(csv_path, index=False)
+    print(f'Results saved to {csv_path}')
     # summarize psnr/ssim
     if img_gt is not None:
         ave_psnr = sum(test_results['psnr']) / len(test_results['psnr'])
@@ -228,6 +236,8 @@ def setup(args):
 
 def get_image_pair(args, path):
     (imgname, imgext) = os.path.splitext(os.path.basename(path))
+    print(imgname)
+    print(imgext)
 
     # 001 classical image sr/ 002 lightweight image sr (load lq-gt image pairs)
     if args.task in ['classical_sr', 'lightweight_sr']:
@@ -235,9 +245,9 @@ def get_image_pair(args, path):
         img_lq = cv2.imread(f'{args.folder_lq}/{imgname}x{args.scale}{imgext}', cv2.IMREAD_COLOR).astype(
             np.float32) / 255.
 
-    # 003 real-world image sr (load lq image only)
+    # 003 real-world image sr (load lq image and gt image)
     elif args.task in ['real_sr']:
-        img_gt = None
+        img_gt = cv2.imread(f'{args.folder_gt}/{imgname}{imgext}', cv2.IMREAD_COLOR).astype(np.float32) / 255.
         img_lq = cv2.imread(path, cv2.IMREAD_COLOR).astype(np.float32) / 255.
 
     # 004 grayscale image denoising (load gt image and generate lq image on-the-fly)
