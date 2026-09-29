@@ -147,8 +147,11 @@ def _blocking_effect_factor(im):
                 (im[:, :, nonblock_vertical_positions, :] - im[:, :, nonblock_vertical_positions + 1, :]) ** 2).sum(
         3).sum(2).sum(1)
 
-    n_boundary_horiz = im.shape[2] * (im.shape[3] // block_size - 1)
-    n_boundary_vert = im.shape[3] * (im.shape[2] // block_size - 1)
+    # Count the edges that were actually differenced. width//8 - 1 drops the
+    # last full block when the side is not a multiple of 8, and is 0 for a
+    # side of 9, which made the average divide by zero.
+    n_boundary_horiz = im.shape[2] * block_horizontal_positions.numel()
+    n_boundary_vert = im.shape[3] * block_vertical_positions.numel()
     boundary_difference = (horizontal_block_difference + vertical_block_difference) / (
                 n_boundary_horiz + n_boundary_vert)
 
